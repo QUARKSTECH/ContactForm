@@ -1,0 +1,11 @@
+<MESSAGE>
+    <AUTHKEY>230013AesQmBul3fI5b66024d</AUTHKEY>
+    <SENDER>prgrmr</SENDER>
+    <ROUTE>4</ROUTE>
+    <CAMPAIGN>Default</CAMPAIGN>
+    <COUNTRY>91</COUNTRY>
+    <SMS TEXT="Name : #Name#spcMobile : #Mobile#spcEmail Id: #Email#spcEnquiry : #Enquiry#" >
+        <ADDRESS TO="9663291144"></ADDRESS>
+        <ADDRESS TO="9608000786"></ADDRESS>
+    </SMS>
+</MESSAGE>
