@@ -5,12 +5,18 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { NavmenuComponent } from './navmenu/navmenu.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       HomeComponent,
-      ContactComponent
+      ContactComponent,
+      HeaderComponent,
+      FooterComponent,
+      NavmenuComponent
    ],
    imports: [
       BrowserModule,
