@@ -1,3 +1,40 @@
-<p>
-  contact works!
-</p>
+<!DOCTYPE html>
+<html>
+
+<body>
+	<!-- main -->
+	<div class="agileits-main"> 
+	<app-navmenu></app-navmenu>
+		<div class="header-main">
+		<h2>Contact Now</h2>
+			<div class="header-bottom">
+				<div class="header-right w3agile">
+					<div class="header-left-bottom agileinfo">
+						<form #contactForm="ngForm" (ngSubmit)="addContact()">
+              <div class="icon1">
+								<input id="emailcontact" type="email" placeholder="First Name" [(ngModel)]="contact.firstname" name="firstname" required=""/>
+							</div>
+              <div class="icon1">
+								<input type="email" placeholder="Email@example.com" [(ngModel)]="contact.email" name="email" required=""/>
+							</div>
+							<div class="icon1">
+								<input type="email" placeholder="Mobile"  name="mobile" [(ngModel)]="contact.mobile" required=""/>
+							</div>
+							<div class="login-check">
+								 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Keep me logged in</label>
+              </div>
+              <textarea id="message" placeholder="Message......." [(ngModel)]="contact.message" name="message"></textarea>
+							<div class="bottom">
+								<input type="submit" value="Add Query" />
+							</div>
+					</form>	
+					</div>
+				</div>
+			</div>
+	</div>
+
+	</div>	
+	<!-- //main -->
+
+</body>
+</html>
