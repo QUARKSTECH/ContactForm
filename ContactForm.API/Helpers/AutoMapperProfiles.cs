@@ -14,6 +14,12 @@ namespace ContactForm.API.Helpers
 
             CreateMap<User, UserForRegisterDto>();
             CreateMap<UserForRegisterDto, User>();
+
+            CreateMap<Enquiry, EnquiryDto>();
+            CreateMap<EnquiryDto, Enquiry>()
+            .ForMember(m => m.ExtraProperties, opt => opt
+                    .MapFrom(u => u.ExtraProps.SerializeDictionary()))
+            ;
         }
     }
 }

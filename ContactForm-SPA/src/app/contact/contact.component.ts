@@ -9,7 +9,9 @@ import { AlertifyService } from '../_service/alertify.service';
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
-  contact: any = {};
+  contact: any = {
+    extraProps: {}
+  };
   baseurl  =  environment.apiUrl + 'enquiry/';
   constructor(private http: HttpClient, private alertify: AlertifyService) { }
 
@@ -20,7 +22,7 @@ export class ContactComponent implements OnInit {
     this.http.post(this.baseurl, this.contact).subscribe(
       response => {
         this.alertify.success('Enquiry saved successfully');
-        this.contact = {};
+        this.contact.extraProps = {};
       },
       error => {
         this.alertify.error(error);

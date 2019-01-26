@@ -57,15 +57,10 @@ namespace ContactForm.API.Helpers.SMS
 
         public async Task<string> ReadAndModifyXMLFile(EnquiryDto enquiryDto)
         {
-            var extraProps = new Dictionary<string, object>();
-            extraProps.Add("Name", enquiryDto.Name);
-            extraProps.Add("Email", enquiryDto.Email);
-            extraProps.Add("Mobile", enquiryDto.Mobile);
-            extraProps.Add("Enquiry", enquiryDto.Message);
             var path = Path.Combine(Directory.GetCurrentDirectory(),
                 "wwwroot/SmsTemplate", "sms.xml");
             var xmlPath = File.ReadAllText(path);
-            foreach (KeyValuePair<string, object> item in extraProps)  
+            foreach (KeyValuePair<string, object> item in enquiryDto.ExtraProps)  
             {  
                 xmlPath = xmlPath.Replace($"#{item.Key}#",item.Value.ToString());
             } 

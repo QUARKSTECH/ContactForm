@@ -12,18 +12,18 @@
 					<div class="header-left-bottom agileinfo">
 						<form #contactForm="ngForm" (ngSubmit)="addContact()">
               				<div class="icon1">
-								<input id="emailcontact" type="email" placeholder="First Name" [(ngModel)]="contact.name" name="firstname" required=""/>
+								<input id="emailcontact" type="email" placeholder="First Name" [(ngModel)]="contact.extraProps.name" name="firstname" required=""/>
 							</div>
               				<div class="icon1">
-								<input type="email" placeholder="Email@example.com" [(ngModel)]="contact.email" name="email" required=""/>
+								<input type="email" placeholder="Email@example.com" [(ngModel)]="contact.extraProps.email" name="email" required=""/>
 							</div>
 							<div class="icon1">
-								<input type="email" placeholder="Mobile"  name="mobile" [(ngModel)]="contact.mobile" required=""/>
+								<input type="email" placeholder="Mobile"  name="mobile" [(ngModel)]="contact.extraProps.mobile" required=""/>
 							</div>
 							<div class="login-check">
 								 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Keep me logged in</label>
               				</div>
-              				<textarea id="message" placeholder="Message......." [(ngModel)]="contact.message" name="message"></textarea>
+              				<textarea id="message" placeholder="Message......." [(ngModel)]="contact.extraProps.message" name="message"></textarea>
 							<div class="bottom">
 								<input type="submit" value="Add Query" />
 							</div>

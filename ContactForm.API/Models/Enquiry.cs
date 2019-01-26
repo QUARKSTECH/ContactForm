@@ -1,11 +1,9 @@
+using ContactForm.API.Data;
+
 namespace ContactForm.API.Models
 {
-    public class Enquiry
+    public class Enquiry : HelperFields
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Mobile { get; set; }
-        public string Email { get; set; }
-        public string Message { get; set; }
     }
 }

@@ -26,5 +26,15 @@ namespace ContactForm.API.Helpers
             }
             return new Dictionary<TKey, Tvalue>();
         }
+
+        public static string SerializeDictionary<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        {
+            if(dictionary != null)
+            {
+                return JsonConvert.SerializeObject(dictionary);
+            }
+
+            return null;
+        }
     }
 }
