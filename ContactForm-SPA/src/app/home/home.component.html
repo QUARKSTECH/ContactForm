@@ -10,20 +10,26 @@
 			<div class="header-bottom">
 				<div class="header-right w3agile">
 					<div class="header-left-bottom agileinfo">
-						<form #loginForm="ngForm" (ngSubmit)="login()">
-							<div class="icon1">
-								<input type="email" placeholder="Email@example.com" [(ngModel)]="model.userName" name="email" required=""/>
+						<form #loginForm="ngForm" (ngSubmit)="smsLogin()">
+							<div class="icon1" [hidden]="showOtp">
+								<input type="email" placeholder="Mobile Number" [(ngModel)]="model.userName" name="mobile" [readonly]="showRegister" required=""/>
 							</div>
-							<div class="icon1" [hidden]="true">
-								<input type="password" placeholder="Password" [(ngModel)]="model.password" name="password"  required=""/>
+							<div class="icon1" [hidden]="!showRegister">
+								<input type="email" placeholder="FullName" [(ngModel)]="model.fullName" name="fullname"  required=""/>
 							</div>
-							<div class="login-check" [hidden]="true">
+							<!-- <div class="login-check" [hidden]="!showRegister">
 								 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Keep me logged in</label>
+							</div> -->
+							<div class="icon1" [hidden]="!showRegister">
+								<input type="email" placeholder="Email" [(ngModel)]="model.email" name="email" required=""/>
+							</div>
+							<div class="icon1" [hidden]="!showOtp">
+								<input type="email" placeholder="OTP" [(ngModel)]="model.password" name="password" required=""/>
 							</div>
 							<div class="bottom">
-								<input type="submit" value="Log in" />
+								<input type="submit" value="{{showRegister === true?'Signup':'Log in'}}" />
 							</div>
-							<p><a href="#">Forgot Password?</a></p>
+							<!-- <p><a href="#">Forgot Password?</a></p> -->
 					</form>	
 					</div>
 				</div>

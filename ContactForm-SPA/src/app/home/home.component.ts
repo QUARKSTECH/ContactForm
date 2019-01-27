@@ -12,6 +12,8 @@ export class HomeComponent implements OnInit {
 
   constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
   model: any = {};
+  showRegister: any = false;
+  showOtp: any = false;
   ngOnInit() {
     this.loggedIn();
   }
@@ -27,6 +29,27 @@ export class HomeComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  smsLogin() {
+    if (!this.showRegister) {
+      this.authService.loginMobileNumber(this.model).subscribe(next => {
+        if (next) {
+          this.showOtp = true;
+          // this.router.navigate(['/contact']);
+        } else {
+          this.showRegister = true;
+        }
+      }, error => {
+        this.alertify.error(error);
+      });
+    } else {
+      this.authService.register(this.model).subscribe(next => {
+        this.showRegister = false;
+      }, error => {
+        this.alertify.error(error);
+      });
+    }
   }
 
   loggedIn() {

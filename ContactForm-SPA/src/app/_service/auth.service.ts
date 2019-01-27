@@ -27,6 +27,15 @@ constructor(private http: HttpClient ) { }
       );
   }
 
+  loginMobileNumber(model: any) {
+    return this.http.post(this.baseurl + 'login', model)
+      .pipe(
+        map((response: any) => {
+          const status = response;
+          return status;
+        })
+      );
+  }
   register(model: any) {
     return this.http.post(this.baseurl + 'register', model);
   }

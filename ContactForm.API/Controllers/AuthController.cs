@@ -52,7 +52,7 @@ namespace ContactForm.API.Controllers
                 {
                     // return CreatedAtRoute("GetUser",
                     //     new { controller = "Users", id = user.Id }, userToReturn);
-                    return StatusCode(1);
+                    return StatusCode(201);
                 }
 
                 return BadRequest(result.Errors);
@@ -71,7 +71,7 @@ namespace ContactForm.API.Controllers
             //var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
             if (user != null && userForLoginDto.Password == null)
             {
-                return StatusCode(1);
+                return Ok(user);
             }
 
             // if (result.Succeeded)
@@ -85,7 +85,7 @@ namespace ContactForm.API.Controllers
             //     });
             // }
 
-            return StatusCode(0, "Register");
+            return Ok(user);
         }
 
         private string GenerateJwtToken(User user)
