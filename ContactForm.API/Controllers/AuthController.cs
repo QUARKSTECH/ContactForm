@@ -44,19 +44,20 @@ namespace ContactForm.API.Controllers
             {
                 var user = _mapper.Map<User>(userForRegisterDto);
 
-                var result = await _userManager.CreateAsync(user, userForRegisterDto.Password);
+                var result = await _userManager.CreateAsync(user, "Password@123");
 
                 var userToReturn = _mapper.Map<UserDetailDto>(user);
 
                 if (result.Succeeded)
                 {
-                    return CreatedAtRoute("GetUser",
-                        new { controller = "Users", id = user.Id }, userToReturn);
+                    // return CreatedAtRoute("GetUser",
+                    //     new { controller = "Users", id = user.Id }, userToReturn);
+                    return StatusCode(1);
                 }
 
                 return BadRequest(result.Errors);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -67,20 +68,24 @@ namespace ContactForm.API.Controllers
         {
             var user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
-
-            if (result.Succeeded)
+            //var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+            if (user != null && userForLoginDto.Password == null)
             {
-                var appUser = await _userManager.Users.
-                    FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
-
-                return Ok(new
-                {
-                    token = GenerateJwtToken(appUser)
-                });
+                return StatusCode(1);
             }
 
-            return Unauthorized();
+            // if (result.Succeeded)
+            // {
+            //     var appUser = await _userManager.Users.
+            //         FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
+
+            //     return Ok(new
+            //     {
+            //         token = GenerateJwtToken(appUser)
+            //     });
+            // }
+
+            return StatusCode(0, "Register");
         }
 
         private string GenerateJwtToken(User user)
@@ -89,7 +94,6 @@ namespace ContactForm.API.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
-                //new Claim(ClaimTypes.GivenName, userFromRepo.CompanyName),
                 new Claim(ClaimTypes.Role, user.UserName.ToLower() == "admin" ? "admin" : "user")
             };
 

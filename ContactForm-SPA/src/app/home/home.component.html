@@ -12,12 +12,12 @@
 					<div class="header-left-bottom agileinfo">
 						<form #loginForm="ngForm" (ngSubmit)="login()">
 							<div class="icon1">
-								<input type="email" placeholder="Email@example.com" [(ngModel)]="model.email" name="email" required=""/>
+								<input type="email" placeholder="Email@example.com" [(ngModel)]="model.userName" name="email" required=""/>
 							</div>
-							<div class="icon1">
-								<input type="password" placeholder="Password" [(ngModel)]="model.password" name="password" required=""/>
+							<div class="icon1" [hidden]="true">
+								<input type="password" placeholder="Password" [(ngModel)]="model.password" name="password"  required=""/>
 							</div>
-							<div class="login-check">
+							<div class="login-check" [hidden]="true">
 								 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Keep me logged in</label>
 							</div>
 							<div class="bottom">
