@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ContactForm.API.Data;
 using ContactForm.API.Dtos;
+using ContactForm.API.Helpers.SMS;
 using ContactForm.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -25,16 +26,19 @@ namespace ContactForm.API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
+        private readonly ISmsService _smsService;
 
         public AuthController(IConfiguration config,
             IMapper mapper,
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            ISmsService smsService)
         {
             _userManager = userManager;
             _config = config;
             _mapper = mapper;
             _signInManager = signInManager;
+            _smsService = smsService;
         }
 
         [HttpPost("register")]
@@ -71,7 +75,20 @@ namespace ContactForm.API.Controllers
             //var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
             if (user != null && userForLoginDto.Password == null)
             {
+                var random = new Random();
+                var rndDigits = random.Next(1000, 9999);
+                var enquiryDto = new EnquiryDto();
+                enquiryDto.IsLogin = true;
+                enquiryDto.ExtraProps.Add("otp",rndDigits);
+                enquiryDto.ExtraProps.Add("number",userForLoginDto.UserName);
+                var result = await _smsService.ReadAndModifyXMLFile(enquiryDto);
+                user.OTP = rndDigits;
+                await _userManager.UpdateAsync(user);
                 return Ok(user);
+            }
+            if (user != null && userForLoginDto.Password != null && user.OTP.ToString() == userForLoginDto.Password)
+            {
+                return Ok(new {data = "success"});
             }
 
             // if (result.Succeeded)

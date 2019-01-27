@@ -35,8 +35,12 @@ export class HomeComponent implements OnInit {
     if (!this.showRegister) {
       this.authService.loginMobileNumber(this.model).subscribe(next => {
         if (next) {
-          this.showOtp = true;
-          // this.router.navigate(['/contact']);
+          if (next.data) {
+            this.router.navigate(['/contact']);
+            this.alertify.success('Logged in successfully');
+          } else {
+            this.showOtp = true;
+          }
         } else {
           this.showRegister = true;
         }

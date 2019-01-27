@@ -31,7 +31,7 @@ namespace ContactForm.API.Controllers
             try
             {
                 var enquiry = _mapper.Map<Enquiry>(enquiryDto);
-                //_repo.Add<Enquiry>(enquiry);
+                _repo.Add<Enquiry>(enquiry);
                 var result = await _smsService.ReadAndModifyXMLFile(enquiryDto);
                 return StatusCode(201);
 

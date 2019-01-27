@@ -8,6 +8,7 @@ namespace ContactForm.API.Models
     {
         public string ContactNumber { get; set; }
         public string FullName { get; set; }
+        public int OTP { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
