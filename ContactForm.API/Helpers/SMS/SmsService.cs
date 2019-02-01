@@ -13,6 +13,7 @@ namespace ContactForm.API.Helpers.SMS
     public class SmsService : ISmsService
     {
         private const string URL = "http://smsp.myoperator.co/api/postsms.php";
+        private const string URL1 = "http://sms.quarkstech.com/api/postsms.php";
         public async Task<string> ParseXML(string xmlString)
         {
             if (xmlString != null)
@@ -26,7 +27,7 @@ namespace ContactForm.API.Helpers.SMS
                     else
                         xmlData += test[i];
                 }
-                var data = await postXMLData(URL, xmlData);
+                var data = await postXMLData(URL1, xmlData);
                 return data.ToString();
             }
             else
