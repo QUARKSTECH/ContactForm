@@ -9,14 +9,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContactForm.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190127181729_InitialSqlLite")]
-    partial class InitialSqlLite
+    [Migration("20190203201145_InitialMySql")]
+    partial class InitialMySql
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ContactForm.API.Models.Enquiry", b =>
                 {
