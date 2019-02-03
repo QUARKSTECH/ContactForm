@@ -7,13 +7,20 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.XPath;
 using ContactForm.API.Dtos;
+using Microsoft.Extensions.Options;
 
 namespace ContactForm.API.Helpers.SMS
 {
     public class SmsService : ISmsService
     {
-        private const string URL = "http://smsp.myoperator.co/api/postsms.php";
-        private const string URL1 = "http://sms.quarkstech.com/api/postsms.php";
+        private readonly IOptions<SmsConfigurations> _smsConfigurations;
+        private Dictionary<string, object> smsConfProps;
+        private string xmlString;
+        public SmsService(IOptions<SmsConfigurations> smsConfigurations)
+        {
+            _smsConfigurations = smsConfigurations;
+            SetSMSConfigurations();
+        }
         public async Task<string> ParseXML(string xmlString)
         {
             if (xmlString != null)
@@ -27,7 +34,7 @@ namespace ContactForm.API.Helpers.SMS
                     else
                         xmlData += test[i];
                 }
-                var data = await postXMLData(URL1, xmlData);
+                var data = await postXMLData(_smsConfigurations.Value.POSTSMSAPI, xmlData);
                 return data.ToString();
             }
             else
@@ -58,25 +65,46 @@ namespace ContactForm.API.Helpers.SMS
 
         public async Task<string> ReadAndModifyXMLFile(EnquiryDto enquiryDto)
         {
-            string path = "";
-            if(enquiryDto.IsLogin)
+            string textContent = "";
+            if (enquiryDto.IsLogin)
             {
-                path = Path.Combine(Directory.GetCurrentDirectory(),
-                "wwwroot/SmsTemplate", "smsLogin.xml");
+                xmlString = xmlString.Replace("textContent", _smsConfigurations.Value.LOGINTEXT);
+                xmlString = xmlString.Replace("ADDRESS", _smsConfigurations.Value.LOGINADDRESS);
+                xmlString = xmlString.Replace("#otp#", enquiryDto.ExtraProps["otp"].ToString());
             }
             else
             {
-                path = Path.Combine(Directory.GetCurrentDirectory(),
-                "wwwroot/SmsTemplate", "sms.xml");
+                foreach (KeyValuePair<string, object> item in enquiryDto.ExtraProps)
+                {
+                    textContent += $"{item.Key }: {item.Value.ToString()}spc";
+                }
+                xmlString = xmlString.Replace("textContent", textContent);
+                xmlString = xmlString.Replace("ADDRESS", _smsConfigurations.Value.ENQUIRYADDRESS);
             }
-            
-            var xmlPath = File.ReadAllText(path);
-            foreach (KeyValuePair<string, object> item in enquiryDto.ExtraProps)  
-            {  
-                xmlPath = xmlPath.Replace($"#{item.Key}#",item.Value.ToString());
-            } 
-            var sms = await ParseXML(xmlPath);
+            xmlString = xmlString.Replace("#mobile#", enquiryDto.ExtraProps["mobile"].ToString());
+
+            var sms = await ParseXML(xmlString);
             return sms;
+        }
+
+        private void SetSMSConfigurations()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(),
+            "wwwroot/SmsTemplate", "sms.xml");
+            xmlString = File.ReadAllText(path);
+            smsConfProps = new Dictionary<string, object>()
+            {
+                {"AUTHKEY", _smsConfigurations.Value.AUTHKEY},
+                {"SENDER", _smsConfigurations.Value.SENDER},
+                {"ROUTE", _smsConfigurations.Value.ROUTE},
+                {"CAMPAIGN", _smsConfigurations.Value.CAMPAIGN},
+                {"COUNTRY", _smsConfigurations.Value.COUNTRY}
+            };
+
+            foreach (KeyValuePair<string, object> item in smsConfProps)
+            {
+                xmlString = xmlString.Replace($"#{item.Key}#", item.Value.ToString());
+            }
         }
     }
 }

@@ -1,12 +1,10 @@
 <MESSAGE>
-    <AUTHKEY>230013AesQmBul3fI5b66024d</AUTHKEY>
-    <SENDER>QUARKS</SENDER>
-    <ROUTE>4</ROUTE>
-    <CAMPAIGN>Default</CAMPAIGN>
-    <COUNTRY>91</COUNTRY>
-    <SMS TEXT="Name : #name#spcMobile : #mobile#spcEmail Id: #email#spcEnquiry : #message#" >
-        <ADDRESS TO="9663291144"></ADDRESS>
-        <ADDRESS TO="9608000786"></ADDRESS>
-        <ADDRESS TO="8404835594"></ADDRESS>
+    <AUTHKEY>#AUTHKEY#</AUTHKEY>
+    <SENDER>#SENDER#</SENDER>
+    <ROUTE>#ROUTE#</ROUTE>
+    <CAMPAIGN>#CAMPAIGN#</CAMPAIGN>
+    <COUNTRY>#COUNTRY#</COUNTRY>
+    <SMS TEXT="textContent" >
+        ADDRESS
     </SMS>
 </MESSAGE>

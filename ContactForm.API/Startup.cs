@@ -129,6 +129,7 @@ namespace ContactForm.API
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ISmsService, SmsService>();
             //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<SmsConfigurations>(Configuration.GetSection("SmsConfigurations"));
             services.AddScoped<IEntityRepository, EntityRepository>();
             services.AddCors();
             services.AddAutoMapper();
