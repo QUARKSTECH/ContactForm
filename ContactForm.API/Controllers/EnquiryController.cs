@@ -42,6 +42,7 @@ namespace ContactForm.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetEnquiries()
         {
