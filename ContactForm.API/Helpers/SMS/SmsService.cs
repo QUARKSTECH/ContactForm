@@ -81,7 +81,7 @@ namespace ContactForm.API.Helpers.SMS
                 xmlString = xmlString.Replace("textContent", textContent);
                 xmlString = xmlString.Replace("ADDRESS", _smsConfigurations.Value.ENQUIRYADDRESS);
             }
-            xmlString = xmlString.Replace("#mobile#", enquiryDto.ExtraProps["mobile"].ToString());
+            xmlString = xmlString.Replace("#Mobile#", enquiryDto.ExtraProps["Mobile"].ToString());
 
             var sms = await ParseXML(xmlString);
             return sms;

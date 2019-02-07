@@ -80,7 +80,7 @@ namespace ContactForm.API.Controllers
                 var enquiryDto = new EnquiryDto();
                 enquiryDto.IsLogin = true;
                 enquiryDto.ExtraProps.Add("otp",rndDigits);
-                enquiryDto.ExtraProps.Add("mobile",userForLoginDto.UserName);
+                enquiryDto.ExtraProps.Add("Mobile",userForLoginDto.UserName);
                 var result = await _smsService.ReadAndModifyXMLFile(enquiryDto);
                 user.OTP = rndDigits;
                 await _userManager.UpdateAsync(user);
