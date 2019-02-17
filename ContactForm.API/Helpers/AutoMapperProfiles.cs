@@ -20,6 +20,12 @@ namespace ContactForm.API.Helpers
             .ForMember(m => m.ExtraProperties, opt => opt
                     .MapFrom(u => u.ExtraProps.SerializeDictionary()))
             ;
+
+            CreateMap<Tenant, TenantDto>();
+            CreateMap<TenantDto, Tenant>()
+            .ForMember(m => m.ExtraProperties, opt => opt
+                    .MapFrom(u => u.ExtraProps.SerializeDictionary()))
+            ;
         }
     }
 }
