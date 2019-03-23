@@ -9,8 +9,5 @@ namespace ContactForm.API.Dtos
         public string Email { get; set; }
         public string ShortName { get; set; }
         public Dictionary<string, object> ExtraProps { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
-        public bool IsActive { get; set; }
     }
 }

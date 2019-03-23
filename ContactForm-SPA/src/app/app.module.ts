@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule } from '@angular/forms';
 import { appRoutes } from './routes';
+import { TabsModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -37,6 +38,7 @@ export function tokenGetter() {
       HttpClientModule,
       FormsModule,
       RouterModule.forRoot(appRoutes),
+      TabsModule.forRoot(),
       DataTableModule,
       JwtModule.forRoot({
          config: {

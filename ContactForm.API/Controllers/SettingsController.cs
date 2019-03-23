@@ -31,7 +31,6 @@ namespace ContactForm.API.Controllers
                 var tenant = _mapper.Map<Tenant>(tenantDto);
                 _repo.Add<Tenant>(tenant);
                 return StatusCode(201);
-
             }
             catch (Exception ex)
             {

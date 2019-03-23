@@ -12,5 +12,6 @@ namespace ContactForm.API.Dtos
         public int Id { get; set; }
         public bool IsLogin { get; set; }
         public Dictionary<string, object> ExtraProps { get; set; }
+        public int TenantId { get; set; }
     }
 }

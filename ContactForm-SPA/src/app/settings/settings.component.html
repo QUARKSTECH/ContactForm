@@ -1,45 +1,31 @@
 <app-navmenu></app-navmenu>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<div style="text-align: center;">
-  <div class="w3-container">
-  <h2 style=" text-align: center;">Welcome To Our Company</h2>  
-  <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Service 1</button>
-  <div id="id01" class="w3-modal">
-    <div class="w3-modal-content">
-      <div class="w3-container" style=" background-color: #2c313161;">
-        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <h2> Add Tenants Contacts</h2>
-        <form #loginForm="ngForm" >
-          <div class="icon1" >
-            <input type="text" placeholder="Mobile Number"  name="mobile"  required=""/>
+<div class="row mt-4">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <div class="tab-panel">
+      <tabset>
+        <tab heading="Add Tenants">
+          <div class="col-sm-4">
+            <div class="header-left-bottom agileinfo mt-4">
+              <form #addTenantForm="ngForm" (ngSubmit)="saveTenant()">
+                <div class="icon1">
+                  <input type="email" placeholder="Email" name="email" autocomplete="off" [(ngModel)]="tenant.email" required="" />
+                </div>
+                <div class="icon1">
+                    <input type="email" placeholder="Company Name" name="shortname" autocomplete="off" [(ngModel)]="tenant.shortName" required="" />
+                </div>
+                <div class="bottom">
+                  <input type="submit" value="Save" />
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="bottom">
-            <input type="submit" value="Save" />
-          </div>  
-          </form>    
+        </tab>
+        <tab heading="List Tenants">
+          <h4>Table data</h4>
+        </tab>
+      </tabset>
     </div>
   </div>
+  <div class="col-sm-2"></div>
 </div>
-</div>
-<br>
-<div class="w3-container"> 
-   <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-black">Open Service 2</button>
-  <div id="id02" class="w3-modal">
-    <div class="w3-modal-content">
-      <div class="w3-container" style=" background-color: #2c313161;">
-        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <h2> Add Tenants Contacts</h2>
-        <form #loginForm="ngForm" >
-          <div class="icon1" >
-            <input type="text" placeholder="Mobile Number"  name="mobile"  required=""/>
-          </div>
-          <div class="bottom">
-            <input type="submit" value="Save" />
-          </div>  
-          </form>      
-    </div>
-  </div>
-</div>
-</div>
-<br>

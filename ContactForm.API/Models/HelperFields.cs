@@ -11,7 +11,7 @@ namespace ContactForm.API.Data
         {
             CreatedOn = DateTime.Now;
             ModifiedOn = DateTime.Now;
-            IsActive = false;
+            IsActive = true;
         }
         public string ExtraProperties { get; set; }
         public DateTime CreatedOn { get; set; }

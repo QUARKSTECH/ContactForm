@@ -6,12 +6,10 @@
     <ul>
       <li><a [routerLink]="['/home']" routerLinkActive="active">Home</a></li>
       <li><a [routerLink]="['/about']" routerLinkActive="active">About</a></li>  
-      <!--<li><a href="#">Services</a></li> 
-       <li><a href="#">Gallery</a></li>
-      <li><a href="#">Blog</a></li>  -->
       <li><a [routerLink]="['/contact']" routerLinkActive="active">Contact</a></li>
-      <li><a [routerLink]="['/enquiries']" routerLinkActive="active">Enquiries</a></li>
-      <li><a [routerLink]="['/settings']" routerLinkActive="active">Settings</a></li>
+      <li><a [routerLink]="['/enquiries']" routerLinkActive="active" *ngIf="authService.decodedToken?.role=='admin'">Enquiries</a></li>
+      <li><a [routerLink]="['/settings']" routerLinkActive="active" *ngIf="authService.decodedToken?.role=='admin'">Settings</a></li>
+      <li><a class="active" (click)="logout()" *ngIf="loggedIn()" style="color: aliceblue; cursor: pointer;">Logout</a></li>
     </ul> 
   </div>	
   <div class="clear"></div>
