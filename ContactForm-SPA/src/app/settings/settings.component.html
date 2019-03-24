@@ -1,0 +1,34 @@
+<app-navmenu></app-navmenu>
+<div class="row mt-4">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <div class="tab-panel">
+      <tabset>
+        <tab heading="Add Tenants">
+          <div class="col-sm-4">
+            <div class="header-left-bottom agileinfo mt-4">
+              <form #addTenantForm="ngForm" (ngSubmit)="saveTenant()">
+                <div class="icon1">
+                  <input type="email" placeholder="Email" name="email" autocomplete="off" [(ngModel)]="tenant.email" required="" />
+                </div>
+                <div class="icon1">
+                    <input type="email" placeholder="Company Name" name="shortname" autocomplete="off" [(ngModel)]="tenant.shortName" required="" />
+                </div>
+                <div class="icon1">
+                  <input type="email" placeholder="Mobiles no comma separated" name="mobile" autocomplete="off" [(ngModel)]="tenant.mobile" required="" />
+                </div>
+                <div class="bottom">
+                  <input type="submit" value="Save" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </tab>
+        <tab heading="List Tenants">
+          <h4>Table data</h4>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+  <div class="col-sm-2"></div>
+</div>

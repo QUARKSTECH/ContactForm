@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule } from '@angular/forms';
 import { appRoutes } from './routes';
+import { TabsModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +15,9 @@ import { AuthService } from './_service/auth.service';
 import { ErrorInterceptorProvider } from './_service/error.interceptor';
 import { AlertifyService } from './_service/alertify.service';
 import { JwtModule } from '@auth0/angular-jwt';
+import { EnquiriesComponent } from './enquiries/enquiries.component';
+import { SettingsComponent } from './settings/settings.component';
+import {DataTableModule} from 'angular-6-datatable';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -25,20 +29,24 @@ export function tokenGetter() {
       ContactComponent,
       HeaderComponent,
       FooterComponent,
-      NavmenuComponent
+      NavmenuComponent,
+      EnquiriesComponent,
+      SettingsComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
       FormsModule,
       RouterModule.forRoot(appRoutes),
+      TabsModule.forRoot(),
+      DataTableModule,
       JwtModule.forRoot({
-        config: {
-          tokenGetter: tokenGetter,
-          whitelistedDomains: ['localhost:5000'],
-          blacklistedRoutes: ['localhost:5000/api/auth']
-        }
-      })
+         config: {
+           tokenGetter: tokenGetter,
+           whitelistedDomains: ['localhost:5000'],
+           blacklistedRoutes: ['localhost:5000/api/auth']
+         }
+       })
    ],
    providers: [
     AuthService,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_service/auth.service';
 import { AlertifyService } from '../_service/alertify.service';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-home',
@@ -10,12 +11,13 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  jwtHelper = new JwtHelperService();
+
   constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
   model: any = {};
   showRegister: any = false;
   showOtp: any = false;
   ngOnInit() {
-    this.loggedIn();
   }
 
   login() {
@@ -35,7 +37,9 @@ export class HomeComponent implements OnInit {
     if (!this.showRegister) {
       this.authService.loginMobileNumber(this.model).subscribe(next => {
         if (next) {
-          if (next.data) {
+          if (next.token) {
+            localStorage.setItem('token', next.token);
+            this.authService.decodedToken = this.jwtHelper.decodeToken(next.token);
             this.router.navigate(['/contact']);
             this.alertify.success('Logged in successfully');
           } else {
@@ -56,15 +60,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  loggedIn() {
-    return this.authService.loggedIn();
-  }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.alertify.message('Logged out');
-    this.model = {};
-    this.router.navigate(['/home']);
-  }
 
 }

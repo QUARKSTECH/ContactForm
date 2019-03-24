@@ -12,6 +12,7 @@ namespace ContactForm.API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Enquiry> Enquiries { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

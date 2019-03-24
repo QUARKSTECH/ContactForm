@@ -1,5 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace ContactForm.API.Controllers
     {
         private readonly IConfiguration _config;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         private readonly ISmsService _smsService;
@@ -31,10 +33,12 @@ namespace ContactForm.API.Controllers
         public AuthController(IConfiguration config,
             IMapper mapper,
             UserManager<User> userManager,
+            RoleManager<Role> roleManager,
             SignInManager<User> signInManager,
             ISmsService smsService)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _config = config;
             _mapper = mapper;
             _signInManager = signInManager;
@@ -54,8 +58,11 @@ namespace ContactForm.API.Controllers
 
                 if (result.Succeeded)
                 {
-                    // return CreatedAtRoute("GetUser",
-                    //     new { controller = "Users", id = user.Id }, userToReturn);
+                    // if (_roleManager.RoleExistsAsync("user").Result) 
+                    // {
+                    //     await _userManager.AddToRoleAsync(user, "user");
+                    // }
+                    
                     return StatusCode(201);
                 }
 
@@ -70,48 +77,45 @@ namespace ContactForm.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
-
-            //var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
-            if (user != null && userForLoginDto.Password == null)
+            try
             {
-                var random = new Random();
-                var rndDigits = random.Next(1000, 9999);
-                var enquiryDto = new EnquiryDto();
-                enquiryDto.IsLogin = true;
-                enquiryDto.ExtraProps.Add("otp",rndDigits);
-                enquiryDto.ExtraProps.Add("mobile",userForLoginDto.UserName);
-                var result = await _smsService.ReadAndModifyXMLFile(enquiryDto);
-                user.OTP = rndDigits;
-                await _userManager.UpdateAsync(user);
+                var user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
+
+                //var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+                if (user != null && userForLoginDto.Password == null)
+                {
+                    var random = new Random();
+                    var rndDigits = random.Next(1000, 9999);
+                    var enquiryDto = new EnquiryDto();
+                    enquiryDto.IsLogin = true;
+                    enquiryDto.ExtraProps.Add("otp",rndDigits);
+                    enquiryDto.ExtraProps.Add("Mobile",userForLoginDto.UserName);
+                    var result = await _smsService.ReadAndModifyXMLFile(enquiryDto);
+                    user.OTP = rndDigits;
+                    await _userManager.UpdateAsync(user);
+                    return Ok(user);
+                }
+                if (user != null && userForLoginDto.Password != null && user.OTP.ToString() == userForLoginDto.Password)
+                {
+                    return Ok(new {token = GenerateJwtToken(user)});
+                }
+
                 return Ok(user);
             }
-            if (user != null && userForLoginDto.Password != null && user.OTP.ToString() == userForLoginDto.Password)
+            catch (Exception ex)
             {
-                return Ok(new {data = "success"});
+                return BadRequest(ex.Message);
             }
-
-            // if (result.Succeeded)
-            // {
-            //     var appUser = await _userManager.Users.
-            //         FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
-
-            //     return Ok(new
-            //     {
-            //         token = GenerateJwtToken(appUser)
-            //     });
-            // }
-
-            return Ok(user);
         }
 
         private string GenerateJwtToken(User user)
         {
+            var isAdmin = _userManager.IsInRoleAsync(user, "admin");
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.UserName.ToLower() == "admin" ? "admin" : "user")
+                new Claim(ClaimTypes.Role, isAdmin.Result == true ?  "admin" : "user")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSetting:Token").Value));

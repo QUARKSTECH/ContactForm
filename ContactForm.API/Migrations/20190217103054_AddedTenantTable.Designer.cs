@@ -3,19 +3,20 @@ using System;
 using ContactForm.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ContactForm.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190217103054_AddedTenantTable")]
+    partial class AddedTenantTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
 
             modelBuilder.Entity("ContactForm.API.Models.Enquiry", b =>
                 {
@@ -29,8 +30,6 @@ namespace ContactForm.API.Migrations
                     b.Property<bool>("IsActive");
 
                     b.Property<DateTime>("ModifiedOn");
-
-                    b.Property<int>("TenantId");
 
                     b.HasKey("Id");
 

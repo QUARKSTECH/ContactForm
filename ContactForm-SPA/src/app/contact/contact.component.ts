@@ -10,7 +10,8 @@ import { AlertifyService } from '../_service/alertify.service';
 })
 export class ContactComponent implements OnInit {
   contact: any = {
-    extraProps: {}
+    extraProps: {},
+    tenantId: 1
   };
   baseurl  =  environment.apiUrl + 'enquiry/';
   constructor(private http: HttpClient, private alertify: AlertifyService) { }

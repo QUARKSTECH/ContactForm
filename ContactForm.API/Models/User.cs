@@ -6,6 +6,10 @@ namespace ContactForm.API.Models
 {
     public class User : IdentityUser<int>
     {
+        public User() 
+        {
+            UserRoles = new List<UserRole>();
+        }
         public string ContactNumber { get; set; }
         public string FullName { get; set; }
         public int OTP { get; set; }
