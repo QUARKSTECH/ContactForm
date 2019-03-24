@@ -11,5 +11,6 @@ namespace ContactForm.API.Data
          void Edit<T>(T entity) where T: class;
          Task<bool> SaveAll();
          Task<IEnumerable<Enquiry>> GetAllEnquiries();
+         Task<Tenant> GetTenant(int TenantId);
     }
 }

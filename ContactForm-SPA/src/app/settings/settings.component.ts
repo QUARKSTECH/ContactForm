@@ -11,21 +11,32 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SettingsComponent implements OnInit {
 
-  tenant: any = {};
+  tenant: any = {
+    extraProps: {}
+  };
+
   constructor(private http: HttpClient,  private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
   }
 
   saveTenant() {
-    this.http.post(environment.apiUrl + 'settings', this.tenant).subscribe(
-      response => {
-          this.tenant = {};
-          this.alertify.success('Tenant added successfully');
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
+    if (this.tenant.mobile) {
+        const mobileNumber = this.tenant.mobile.split(',');
+        this.tenant.extraProps.mobileNumber = mobileNumber;
+        this.http.post(environment.apiUrl + 'settings', this.tenant).subscribe(
+        response => {
+            this.tenant = {
+              extraProps: {}
+            };
+            this.alertify.success('Tenant added successfully');
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+    } else {
+      this.alertify.error('Please add mobile number');
+    }
   }
 }

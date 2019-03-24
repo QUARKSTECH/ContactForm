@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.XPath;
+using ContactForm.API.Data;
 using ContactForm.API.Dtos;
 using Microsoft.Extensions.Options;
 
@@ -14,11 +15,13 @@ namespace ContactForm.API.Helpers.SMS
     public class SmsService : ISmsService
     {
         private readonly IOptions<SmsConfigurations> _smsConfigurations;
+        private readonly IEntityRepository _repo;
         private Dictionary<string, object> smsConfProps;
         private string xmlString;
-        public SmsService(IOptions<SmsConfigurations> smsConfigurations)
+        public SmsService(IOptions<SmsConfigurations> smsConfigurations, IEntityRepository repo)
         {
             _smsConfigurations = smsConfigurations;
+            _repo = repo;
             SetSMSConfigurations();
         }
         public async Task<string> ParseXML(string xmlString)
@@ -74,12 +77,27 @@ namespace ContactForm.API.Helpers.SMS
             }
             else
             {
+                var tenantObj = await _repo.GetTenant(enquiryDto.TenantId);
+                var str = new StringBuilder();
+                var mobileNumber = tenantObj.ExtraProps.GetValueOrDefault("mobileNumber") as Newtonsoft.Json.Linq.JArray;
+
+                foreach (var item in mobileNumber.ToObject<string[]>())
+                {
+                    str.Append($"<ADDRESS TO='{item}'></ADDRESS>");
+                }
+                
+                // make sure this property if not required should be removed from both setting json file
+                if(_smsConfigurations.Value.ENQUIRYADDRESS != null)
+                {
+                    str.Append(_smsConfigurations.Value.ENQUIRYADDRESS);
+                }
+                
                 foreach (KeyValuePair<string, object> item in enquiryDto.ExtraProps)
                 {
                     textContent += $"{item.Key }: {item.Value.ToString()}spc";
                 }
                 xmlString = xmlString.Replace("textContent", textContent);
-                xmlString = xmlString.Replace("ADDRESS", _smsConfigurations.Value.ENQUIRYADDRESS);
+                xmlString = xmlString.Replace("ADDRESS", str.ToString());
             }
             xmlString = xmlString.Replace("#Mobile#", enquiryDto.ExtraProps["Mobile"].ToString());
 
