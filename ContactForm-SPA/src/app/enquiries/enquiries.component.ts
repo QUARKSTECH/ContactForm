@@ -27,8 +27,11 @@ export class EnquiriesComponent implements OnInit {
         // this.tempEnquiries.forEach(function(item) {
         //     this.enquiries.push(item.extraProps);
         // });
+        let counter = 0;
         this.tempEnquiries.forEach(element => {
               this.enquiries.push(element.extraProps);
+              this.enquiries[counter].id = element.id;
+              counter++;
         });
         if (this.enquiries.length) {
           this.alertify.success('Enquiries loaded successfully');

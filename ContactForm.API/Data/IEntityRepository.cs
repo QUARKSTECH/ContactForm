@@ -12,5 +12,6 @@ namespace ContactForm.API.Data
          Task<bool> SaveAll();
          Task<IEnumerable<Enquiry>> GetAllEnquiries();
          Task<Tenant> GetTenant(int TenantId);
+         Task<IEnumerable<Tenant>> GetTenants();
     }
 }

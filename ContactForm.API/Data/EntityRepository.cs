@@ -48,5 +48,11 @@ namespace ContactForm.API.Data
             var tenant = await _context.Tenants.FirstOrDefaultAsync(x => x.Id == TenantId);
             return tenant;
         }
+
+        public async Task<IEnumerable<Tenant>> GetTenants()
+        {
+            var tenants = await _context.Tenants.ToListAsync();
+            return tenants;
+        }
     }
 }

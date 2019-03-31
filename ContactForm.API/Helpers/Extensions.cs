@@ -20,7 +20,7 @@ namespace ContactForm.API.Helpers
 
         public static Dictionary<TKey, Tvalue> DeserializeDictionary<TKey, Tvalue>(this string input)
         {
-            if(input != string.Empty)
+            if(input != string.Empty && input != null)
             {
                 return JsonConvert.DeserializeObject<Dictionary<TKey, Tvalue>>(input);
             }

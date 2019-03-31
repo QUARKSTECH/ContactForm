@@ -5,3 +5,29 @@
   }
   
   
+  .w3top-nav-left h1 {
+    font-size: 2.5em;
+}
+
+
+
+.setting-table {
+  background-color: white !important;
+  border: 1px solid #eee;
+  margin-top: 20px;
+}
+.setting-table thead tr th {
+  background-color: #eee;
+  font-weight:700;
+}
+.setting-table thead tr th,.setting-table tr td{
+  border: 1px solid #65626224;
+  padding: 7px;
+  font-size: 14px;
+}
+.setting-table .table thead tr th a {
+  font-weight: 700;
+}
+.setting-table .table tbody tr td {
+  font-size: 14px;
+}

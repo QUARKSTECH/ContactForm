@@ -37,5 +37,13 @@ namespace ContactForm.API.Controllers
                 return BadRequest(ex.Message.ToString());
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenants()
+        {
+            var tenants = await _repo.GetTenants();
+            return Ok(tenants);
+        }
     }
 }
