@@ -25,7 +25,53 @@
           </div>
         </tab>
         <tab heading="List Tenants">
-          <h4>Table data</h4>
+          <div class="header-main setting-table">
+            <h2>Tenants</h2>
+            <div class="col-sm-12">
+              
+                <table
+                  class="table"
+                  [mfData]="tenants"
+                  #tenantTable="mfDataTable"
+                  [mfRowsOnPage]="10"
+                >
+                  <thead>
+                    <tr >
+                      <th style="width: 40%">
+                        <mfDefaultSorter by="email">Id</mfDefaultSorter>
+                      </th>
+                      <th style="width: 30%">
+                        <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                      </th>
+                      <th style="width: 30%">
+                        <mfDefaultSorter by="email">Email</mfDefaultSorter>
+                      </th>
+                      <th style="width: 30%">
+                        <mfDefaultSorter by="mobile">Mobile</mfDefaultSorter>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tenantTable.data">
+                      <td>{{ item.id }}</td>
+                      <td>{{ item.shortName }}</td>
+                      <td>{{ item.email }}</td>
+                      <td>{{ item.mobile }}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="4">
+                        <mfBootstrapPaginator
+                          [rowsOnPageSet]="[5, 10, 25]"
+                        ></mfBootstrapPaginator>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              
+            </div>
+          </div>
         </tab>
       </tabset>
     </div>

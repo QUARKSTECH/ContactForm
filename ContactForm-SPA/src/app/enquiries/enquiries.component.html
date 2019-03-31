@@ -1,12 +1,12 @@
 <!-- main -->
 
 <app-navmenu></app-navmenu>
-<div class="header-main">
+<div class="header-main equiry-block">
   <h2>Enquiries</h2>
   <div class="col-sm-12">
     
       <table
-        class="table table-striped"
+        class="table"
         [mfData]="enquiries"
         #enquiryTable="mfDataTable"
         [mfRowsOnPage]="10"
@@ -42,7 +42,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="5">
               <mfBootstrapPaginator
                 [rowsOnPageSet]="[5, 10, 25]"
               ></mfBootstrapPaginator>
